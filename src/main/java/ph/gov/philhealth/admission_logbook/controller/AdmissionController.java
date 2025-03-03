@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 public class AdmissionController {
@@ -27,7 +28,7 @@ public class AdmissionController {
     @PostMapping
     @RequestMapping("/v1/submit_admission")
     @ResponseBody
-    public  Map<String, Object> SubmitAdmission(@RequestBody AdmissionModel admission_data) {
+    public ResponseEntity<Map<String, Object>> SubmitAdmission(@RequestBody AdmissionModel admission_data) {
 
         //ValidationService here
         ValidateAdmission validateAdmission = new ValidateAdmission();
@@ -37,16 +38,19 @@ public class AdmissionController {
         if (!errorMessages.isEmpty()) {
             response.put("success", false);
             response.put("errors", errorMessages);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         else {
             //to do generate reference_number here
             String referenceNumber = generateReferenceNumber(admission_data);
             //to do then save it to oracle database
-            response.put("reference_number", referenceNumber);
-            response.put("success", true);
+            response.put("status:",  HttpStatus.OK);
+            response.put("reference_number:", referenceNumber);
+            response.put("success:", true);
+            response.put("message:", "Successfully submitted admission with reference number:" + referenceNumber);
         }
-        return response;
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     private String generateReferenceNumber(AdmissionModel admission_data) {

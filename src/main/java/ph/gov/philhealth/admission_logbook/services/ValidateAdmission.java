@@ -8,7 +8,7 @@ public class ValidateAdmission {
 
     public List<String> validateAdmission(AdmissionModel admission_data) {
         List<String> errorMessages = new ArrayList<>();
-
+        //validation here
         if (admission_data.getAdmission_code().isEmpty()) {
             errorMessages.add("admission_code is empty");
         }
