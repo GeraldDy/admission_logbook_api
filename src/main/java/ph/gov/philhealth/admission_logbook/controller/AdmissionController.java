@@ -1,26 +1,26 @@
 package ph.gov.philhealth.admission_logbook.controller;
 //models
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jdbc.core.JdbcTemplate;
 import ph.gov.philhealth.admission_logbook.model.AdmissionModel;
 
 //services or business logic
 import ph.gov.philhealth.admission_logbook.services.ValidateAdmission;
 import ph.gov.philhealth.admission_logbook.services.GenerateReferenceNumber;
 import ph.gov.philhealth.admission_logbook.services.DatabaseOperations;
-
+//config
+import ph.gov.philhealth.admission_logbook.config.DatabaseConfig;
 
 
 
 import org.springframework.web.bind.annotation.*;
+import java.sql.Connection;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
 
 @RestController
 
@@ -30,6 +30,12 @@ public class AdmissionController {
     private String apiKey;
     @Value("${app_key}")
     private String appKey;
+    private final DatabaseOperations databaseOperations;
+
+    @Autowired
+    public AdmissionController(DatabaseOperations databaseOperations) {
+        this.databaseOperations = databaseOperations;
+    }
 
     @PostMapping
     @RequestMapping("/submit_admission")
@@ -49,6 +55,8 @@ public class AdmissionController {
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
 
+
+
         //ValidationService Validate Admission Data
         ValidateAdmission validateAdmission = new ValidateAdmission();
         List<String> errorMessages =  validateAdmission.validateAdmission(admission_data);
@@ -64,9 +72,7 @@ public class AdmissionController {
             String reference_number = generateReferenceNumber.generateReferenceNumber(admission_data);
 
             //after generate ref number save it to database (database operation)
-            DatabaseOperations databaseOperations = new DatabaseOperations();
-            String dataOperationInsert = databaseOperations.Insert(admission_data,reference_number);
-            System.out.println(dataOperationInsert);
+            databaseOperations.Insert(admission_data,reference_number);
 
 
             response.put("status:",  HttpStatus.OK);

@@ -1,7 +1,34 @@
 package ph.gov.philhealth.admission_logbook.model;
 
 public class AdmissionModel {
+
     private String hospital_code;
+    private String patient_pin;
+    private String p_mononym;
+    private String p_first_name;
+    private String p_last_name;
+    private String p_middle_name;
+    private String p_suffix;
+    private String p_birthday;
+    private String p_gender;
+    private int p_age;
+    private String p_nationality;
+    private String p_address;
+    private String p_contact_number;
+    private String p_email_address;
+    private String patient_type;
+    private String m_first_name;
+    private String m_last_name;
+    private String m_middle_name;
+    private String m_suffix;
+    private String m_email_address;
+    private String m_contact_number;
+    private String benefit_availment;
+    private String reason_for_availment;
+    private String chief_complaint;
+    private String admission_code;
+    private String admission_date;
+    private String admission_time;
 
     public String getCase_number() {
         return case_number;
@@ -213,31 +240,6 @@ public class AdmissionModel {
         this.admission_time = admission_time;
     }
 
-    private String patient_pin;
-    private String p_mononym;
-    private String p_first_name;
-    private String p_last_name;
-    private String p_middle_name;
-    private String p_suffix;
-    private String p_birthday;
-    private String p_gender;
-    private int p_age;
-    private String p_nationality;
-    private String p_address;
-    private String p_contact_number;
-    private String p_email_address;
-    private String patient_type;
-    private String m_first_name;
-    private String m_last_name;
-    private String m_middle_name;
-    private String m_suffix;
-    private String m_email_address;
-    private String m_contact_number;
-    private String benefit_availment;
-    private String reason_for_availment;
-    private String chief_complaint;
-    private String admission_code;
-
     public String getAdmission_date() {
         return admission_date;
     }
@@ -245,10 +247,6 @@ public class AdmissionModel {
     public void setAdmission_date(String admission_date) {
         this.admission_date = admission_date;
     }
-
-    private String admission_date;
-    private String admission_time;
-
 
     public String getHospital_code() {
         return hospital_code;
