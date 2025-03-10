@@ -55,8 +55,6 @@ public class AdmissionController {
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
 
-
-
         //ValidationService Validate Admission Data
         ValidateAdmission validateAdmission = new ValidateAdmission();
         List<String> errorMessages =  validateAdmission.validateAdmission(admission_data);
@@ -72,15 +70,25 @@ public class AdmissionController {
             String reference_number = generateReferenceNumber.generateReferenceNumber(admission_data);
 
             //after generate ref number save it to database (database operation)
-            databaseOperations.Insert(admission_data,reference_number);
+            Integer isInserted = databaseOperations.Insert(admission_data);
+            System.out.print("this is ID for admission_inserted " + isInserted);
 
+            boolean saveReferenceNumber = databaseOperations.InsertRefNum(reference_number,isInserted);
+            System.out.print(saveReferenceNumber);
 
-            response.put("status:",  HttpStatus.OK);
-            response.put("reference_number:", reference_number);
-            response.put("success:", true);
-            response.put("message:", "Successfully submitted admission with reference number:" + reference_number);
+            if (isInserted != 0 && saveReferenceNumber) {
+                response.put("status", HttpStatus.OK);
+                response.put("reference_number", reference_number);
+                response.put("message", "Successfully submitted admission with reference number: " + reference_number);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+            else {
+                response.put("status:", HttpStatus.INTERNAL_SERVER_ERROR);
+                response.put("message:", "Failed to submit admission. Please try again.");
+                return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
     private boolean isValidApiKey(String providedApiKey, String providedAppKey) {

@@ -11,7 +11,7 @@ public class AdmissionModel {
     private String p_suffix;
     private String p_birthday;
     private String p_gender;
-    private int p_age;
+    private short p_age;
     private String p_nationality;
     private String p_address;
     private String p_contact_number;
@@ -94,22 +94,25 @@ public class AdmissionModel {
 
     public void setP_birthday(String p_birthday) {
         this.p_birthday = p_birthday;
+
     }
 
     public String getP_gender() {
         return p_gender;
+
     }
 
     public void setP_gender(String p_gender) {
         this.p_gender = p_gender;
     }
 
-    public int getP_age() {
+    public short getP_age() {
         return p_age;
     }
 
-    public void setP_age(int p_age) {
+    public void setP_age(short p_age) {
         this.p_age = p_age;
+
     }
 
     public String getP_nationality() {
