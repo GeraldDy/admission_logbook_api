@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ph.gov.philhealth</groupId>
-    <artifactId>admission_logbook</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>admission_logbook_api</artifactId>
+    <version>1.0.0</version>
     <packaging>war</packaging>
     <name>admission_logbook</name>
     <description>admission_logbook</description>
